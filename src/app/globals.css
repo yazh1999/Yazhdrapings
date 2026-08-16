@@ -84,6 +84,9 @@
 --------------------------------------------------------------------------- */
 
 :root {
+  /* Channel triple so scrims can take an alpha without a second hex. */
+  --ivory-rgb: 255 250 246;
+
   --pleat-gradient: repeating-linear-gradient(
     90deg,
     var(--color-gold) 0px,
@@ -155,6 +158,48 @@
 
   .pleat-loader-bar {
     animation: pleat-fall 640ms var(--ease-fold) infinite alternate;
+  }
+
+  /* Hero scrim — the type sits on ivory, the folds stay visible behind and to
+     the side of it. A fashion plate, not a caption box floating on stripes.
+     Vertical on mobile where the column is full width; angled on desktop so the
+     pleats read strongest on the open right-hand side. */
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgb(var(--ivory-rgb) / 0.97) 0%,
+      rgb(var(--ivory-rgb) / 0.9) 46%,
+      rgb(var(--ivory-rgb) / 0.62) 78%,
+      rgb(var(--ivory-rgb) / 0.42) 100%
+    );
+  }
+
+  @media (min-width: 1024px) {
+    .hero-scrim {
+      background: linear-gradient(
+        100deg,
+        rgb(var(--ivory-rgb) / 0.99) 0%,
+        rgb(var(--ivory-rgb) / 0.96) 32%,
+        rgb(var(--ivory-rgb) / 0.72) 54%,
+        rgb(var(--ivory-rgb) / 0.18) 100%
+      );
+    }
+  }
+
+  /* Service card reveal. The entire interaction: a 6px pleat strip slides in
+     from the left over 240ms. No lift, no shadow, no scale.
+     focus-within as well as hover, so the keyboard path gets it too. */
+  .pleat-reveal {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 240ms ease-out;
+  }
+
+  .group:hover .pleat-reveal,
+  .group:focus-within .pleat-reveal {
+    transform: scaleX(1);
   }
 }
 

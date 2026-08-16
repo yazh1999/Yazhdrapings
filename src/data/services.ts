@@ -23,7 +23,7 @@ export const services: Service[] = [
     // "Same day" service, per docs/03: with us before 11am, +50%.
     turnaround: { standardHours: 48, expressHours: 8, expressSurchargePct: 50 },
     featured: true,
-    image: "/images/services/pre-pleating-light.webp",
+    image: "/assets/services/pre-pleating-light.webp",
   },
   {
     slug: "pre-pleating-silk",
@@ -35,7 +35,7 @@ export const services: Service[] = [
     fabricGroup: "silk",
     turnaround: { standardHours: 48, expressHours: 8, expressSurchargePct: 50 },
     featured: false,
-    image: "/images/services/pre-pleating-silk.webp",
+    image: "/assets/services/pre-pleating-silk.webp",
   },
   {
     slug: "fall-and-pico",
@@ -47,7 +47,7 @@ export const services: Service[] = [
     fabricGroup: "specialty",
     turnaround: { standardHours: 48, expressHours: 24 },
     featured: true,
-    image: "/images/services/fall-and-pico.webp",
+    image: "/assets/services/fall-and-pico.webp",
   },
   {
     slug: "kuchu",
@@ -60,7 +60,7 @@ export const services: Service[] = [
     fabricGroup: "specialty",
     turnaround: { standardHours: 96, expressHours: 48 },
     featured: true,
-    image: "/images/services/kuchu.webp",
+    image: "/assets/services/kuchu.webp",
   },
   {
     slug: "ready-to-wear",
@@ -73,7 +73,7 @@ export const services: Service[] = [
     // TODO(launch): not in the turnaround table in docs/03. Confirm with client.
     turnaround: { standardHours: 120 },
     featured: false,
-    image: "/images/services/ready-to-wear.webp",
+    image: "/assets/services/ready-to-wear.webp",
   },
   {
     slug: "bridal-package",
@@ -85,7 +85,7 @@ export const services: Service[] = [
     fabricGroup: "specialty",
     turnaround: { standardHours: 120 }, // express on request
     featured: false,
-    image: "/images/services/bridal-package.webp",
+    image: "/assets/services/bridal-package.webp",
   },
 ];
 
