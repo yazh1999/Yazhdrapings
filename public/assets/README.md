@@ -15,10 +15,33 @@ photography.** An empty section is better than a borrowed one.
 | `gallery/` | Finished work, 20–30 images | `/gallery`, home gallery preview |
 | `process/` | One per step of the four-step process | `/how-it-works` |
 | `studio/` | The studio, the founder | `/about` |
-| `brand/` | Wordmark, favicon source, OG fallback | Layout, metadata |
+| `logo/` | Wordmark, favicon source, OG fallback | Layout, metadata |
 
 Service filenames must match the `slug` in `src/data/services.ts`, since that is what
 `Service.image` points at.
+
+## `logo/`
+
+The wordmark is currently **set in type, not placed as a file** — `Yazh` in Bodoni Moda with யாழ்
+in Noto Serif Tamil beneath it at 60% size, in gold. See `src/components/layout/Wordmark.tsx`. That
+is deliberate: it stays crisp at every size, weighs nothing, and cannot drift from the type scale.
+
+Drop files here when they exist:
+
+| File | Use | Notes |
+|---|---|---|
+| `wordmark.svg` | Replaces the type-set wordmark, if a designed one is made | Must keep the Tamil legible at 24px height |
+| `mark.svg` | Square/icon lockup | For the favicon and social avatars |
+| `favicon.svg` | Browser tab | Replaces `src/app/favicon.ico`, which is **still the default Next.js icon** |
+| `og-fallback.png` | 1200×630 | Only if the generated `opengraph-image.tsx` is dropped |
+
+**Prefer SVG.** A logo is line art; a PNG wordmark on a retina phone is either blurry or heavy.
+If the client supplies only a raster file, ask for the vector — every printer and sign-maker they
+have ever used will have one.
+
+If a Tamil glyph is drawn into the SVG as a path, it still has to be proofread by a native reader
+before it ships. Converting text to outlines hides spelling errors from every spellchecker, and
+README ground rule 6 applies to a logo exactly as it applies to body copy.
 
 ## Specification
 
