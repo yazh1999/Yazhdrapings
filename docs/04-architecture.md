@@ -4,7 +4,7 @@
 
 | Layer | Choice | Why |
 |---|---|---|
-| Framework | Next.js 15, App Router | Static generation for every marketing page; Server Actions handle the one form |
+| Framework | Next.js 16, App Router | Static generation for every marketing page; Server Actions handle the one form. **16, not 15** — see the version note below. |
 | Language | TypeScript, strict | |
 | Styling | Tailwind CSS v4 | `@theme` in CSS, no config file to drift from the design system |
 | Icons | `lucide-react` | Import individually, never the barrel |

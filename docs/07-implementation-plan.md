@@ -37,13 +37,32 @@ week three costs a day; discovered now it costs ten minutes.
 | ID | Task | Files | Depends | Done when |
 |---|---|---|---|---|
 | 0.1 | Git repo, `.gitignore`, initial commit, push | root | — | `main` on GitHub with `docs/` committed |
-| 0.2 | Scaffold Next.js into `app/` | `app/**` | 0.1 | `npm run dev` serves the starter |
-| 0.3 | TS strict, `@/*` path alias | `app/tsconfig.json` | 0.2 | `npx tsc --noEmit` clean |
+| 0.2 | Scaffold Next.js at the **repo root** | root | 0.1 | `npm run dev` serves the starter |
+| 0.3 | TS strict, `@/*` path alias | `tsconfig.json` | 0.2 | `npx tsc --noEmit` clean |
 | 0.4 | Connect Vercel, first production deploy | — | 0.1–0.2 | Starter page live on a `.vercel.app` URL |
 | 0.5 | Env vars set for Production / Preview / Development | Vercel dashboard | 0.4 | Build green; Preview has its own `BOOKING_INBOX` and no `NEXT_PUBLIC_GA_ID` |
 
-> This directory is **not currently a git repository.** 0.1 is a real task, not a formality — and
-> the `docs/` package belongs in the same repo as the code it specifies.
+### Milestone 0 status
+
+| ID | Status | Note |
+|---|---|---|
+| 0.1 | ✅ Done | Repo initialised on `main`; docs committed. **No remote yet** — see below. |
+| 0.2 | ✅ Done | Scaffolded at repo root. Next.js **16.3.1**, React 19.2.8, Tailwind v4. |
+| 0.3 | ✅ Done | `strict: true`, `@/*` → `./src/*`. `tsc`, `eslint` and `next build` all green. |
+| 0.4 | ⏸ Blocked | Needs a GitHub remote and Vercel account access. |
+| 0.5 | ⏸ Blocked | Needs 0.4. `.env.example` is committed as the template. |
+
+**Two deviations from the specs, both deliberate:**
+
+1. **Next.js 16, not 15.** 16 is current stable; the docs were written when 15 was. The async
+   `headers()` call in `04-architecture.md` is already correct for 16. Two Next 16 breaking changes
+   touch planned work but do **not** affect us: async `params` on `opengraph-image` and async `id`
+   on `sitemap` apply only to the dynamic `generateImageMetadata` / `generateSitemaps` variants, and
+   ours are single static files. One that *does* apply: `images.qualities` now defaults to `[75]`
+   only — fine for the gallery, but set it in `next.config.ts` before using any other quality value.
+2. **App at the repo root, not `app/`.** A folder named `app/` containing `src/app/` is confusing,
+   npm rejects the parent folder name as a package name, and root means Vercel needs no Root
+   Directory setting. `docs/` sits alongside.
 
 ---
 

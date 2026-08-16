@@ -3,7 +3,7 @@
 Marketing and booking site for **Yazh Drapings**, a saree pre-pleating and drape-finishing service.
 Customers send a saree, we pleat, press, finish and return it ready to wear in under a minute.
 
-**Stack:** Next.js 15 (App Router) · React 19 · Tailwind CSS v4 · TypeScript
+**Stack:** Next.js 16 (App Router) · React 19.2 · Tailwind CSS v4 · TypeScript
 **Primary conversion:** WhatsApp booking + a pickup request form
 **Primary market:** Chennai first, rest of Tamil Nadu by courier
 
@@ -28,16 +28,21 @@ every color in the codebase comes from the tokens in `02`.
 
 ## Quick start
 
-The app lives in `app/` at the repo root, beside `docs/`.
+The Next.js app is at the **repo root**, with `docs/` alongside it. Already scaffolded — just:
 
 ```bash
-npx create-next-app@latest app --typescript --tailwind --app --eslint --src-dir
-cd app
-npm install lucide-react framer-motion react-hook-form zod @hookform/resolvers resend
+npm install
+cp .env.example .env.local   # then fill it in
 npm run dev
 ```
 
 Open http://localhost:3000
+
+Feature dependencies are installed per milestone, not upfront:
+
+```bash
+npm install lucide-react framer-motion react-hook-form zod @hookform/resolvers resend
+```
 
 ### Environment variables
 
@@ -65,7 +70,7 @@ Production, Preview and Development. See [`docs/06-production.md`](docs/06-produ
 | `npm run dev` | Local dev server |
 | `npm run build` | Production build |
 | `npm run start` | Serve the production build |
-| `npm run lint` | ESLint |
+| `npm run lint` | ESLint (flat config — `next lint` was removed in 16) |
 | `npx tsc --noEmit` | Type check |
 
 ---
