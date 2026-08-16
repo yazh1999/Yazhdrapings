@@ -85,6 +85,29 @@ expensive to undo once thirty components depend on it.
 | 1.10 | WhatsApp deep links | `src/lib/whatsapp.ts` | 1.4 | URL builds with and without `context`; text correctly encoded |
 | 1.11 | Header, MobileNav, Footer, WhatsAppBar | `src/components/layout/` | 1.8, 1.10 | Present on every route; mobile nav opens/closes/traps focus |
 
+### Milestone 1 status — all code tasks done
+
+| ID | Status | Note |
+|---|---|---|
+| 1.1 | ✅ | Tokens in `globals.css`. Default palette verified absent from the built CSS. Enforced by `npm run check:tokens`, not by the build — see the row above. |
+| 1.2 | ✅ | Bodoni Moda, Manrope, Noto Serif Tamil, DM Mono. Tamil and mono are `preload: false` — off the critical path. |
+| 1.3 | ✅ | `Price`, `Turnaround`, `Service`, `Charge`, `GalleryItem`, `Testimonial`. |
+| 1.4 | ✅ | `site`, `contact`, `stats`, `nav`. Studio address is a `TODO(launch)`. |
+| 1.5 | ⚠️ | Six services, two charges, exactly three featured, kuchu carries `to: 900`. **Prices are the invented placeholders** — gate B3. `tamilName` left undefined rather than guessed. |
+| 1.6 | ✅ | `formatPrice` renders `₹250` and `₹400–₹900` with `en-IN` grouping. |
+| 1.7 | ⚠️ | Implemented per spec and rendering. **Not yet tuned against a reference photograph** — see below. |
+| 1.8 | ✅ | `Button` ×3 variants, `Section` ×3 tones, `Eyebrow` (tone-aware for the sand contrast rule), `PleatDivider`. |
+| 1.9 | ✅ | `PleatLoader` plus `loading.tsx`, `error.tsx`, `not-found.tsx`. |
+| 1.10 | ✅ | Verified: builds a correct wa.me link with encoded context, and renders nothing when unconfigured. |
+| 1.11 | ✅ | Header, MobileNav (Esc, scroll lock, focus return), Footer, WhatsAppBar. Skip link added. |
+
+`npm run verify` — check:tokens, tsc, eslint, build — passes.
+
+**One deviation worth recording.** `MobileNav` closes on navigation by adjusting state during
+render rather than in a `useEffect`. React's set-state-in-effect lint rule rejects the effect
+version, and the render-phase pattern also covers browser back/forward, which an onClick handler on
+each link would miss.
+
 ### 1.7 — The pleat gradient, in detail
 
 `05-roadmap.md` calls this out as the task everything visual depends on, and it is the one piece of
@@ -99,6 +122,12 @@ full-bleed hero — because the same gradient has to survive all three.
 **Done when:** held next to the reference photograph at arm's length on a phone, it reads as folds.
 If half a day passes and it doesn't, stop and get a second opinion rather than continuing to tune —
 that is a design decision surfacing, not a CSS problem.
+
+> **Status: implemented, not tuned.** The spec values from `02-design-system.md` are in
+> `globals.css` as `--pleat-gradient` and render correctly at all three sizes — the Checkpoint 1
+> page at `/` deliberately shows the hero fan, the 2px divider and the 6px card strip together for
+> exactly this comparison. What has not happened is the tuning pass, because it needs a photograph
+> of a real set saree to judge against. **This is the open item blocking Checkpoint 1 sign-off.**
 
 > **Checkpoint 1.** An empty page with real chrome: header, footer, a working WhatsApp button, and
 > one pleat divider that looks like cloth. Show it to the client. This is the first moment the brand
