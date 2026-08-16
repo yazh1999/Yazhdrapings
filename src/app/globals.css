@@ -190,22 +190,24 @@
   }
 
   /* Dark scrim, used when a photograph backs the hero.
-     Two jobs, not one:
-       1. Contrast. Ivory type over a photograph needs a floor under it.
-       2. Cover. The branding banner has its own headline, subtitle and service
-          icons baked into the left of the image. Opaque ink to 48% hides them,
-          so only the photography shows and our live, indexable headline is the
-          one on screen.
-     Mobile is a vertical ramp instead: the frame is cropped to the drape, so
-     there is no left panel to hide, only text to keep legible. */
+     Contrast only. It used to double as a cover for the banner's baked-in
+     headline, which did not work — at 97% opacity roughly 3% of light text on a
+     near-black ground is still legible, and "Draped with Elegance" ghosted
+     straight through ours. The text panel is stripped out of the asset itself
+     now (scripts/generate-hero.mjs), so this can be gentle and let the saree
+     show. If it is ever tempting to raise these numbers to hide something,
+     fix the image instead.
+
+     Mobile carries a heavier ramp: the portrait crop is photograph edge to
+     edge, so the type has real detail under it rather than flat ground. */
   .hero-scrim--dark {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       180deg,
-      rgb(var(--ink-rgb) / 0.94) 0%,
-      rgb(var(--ink-rgb) / 0.86) 52%,
-      rgb(var(--ink-rgb) / 0.72) 100%
+      rgb(var(--ink-rgb) / 0.9) 0%,
+      rgb(var(--ink-rgb) / 0.8) 45%,
+      rgb(var(--ink-rgb) / 0.62) 100%
     );
   }
 
@@ -213,11 +215,11 @@
     .hero-scrim--dark {
       background: linear-gradient(
         90deg,
-        rgb(var(--ink-rgb) / 0.98) 0%,
-        rgb(var(--ink-rgb) / 0.97) 44%,
-        rgb(var(--ink-rgb) / 0.82) 58%,
-        rgb(var(--ink-rgb) / 0.35) 78%,
-        rgb(var(--ink-rgb) / 0.15) 100%
+        rgb(var(--ink-rgb) / 0.82) 0%,
+        rgb(var(--ink-rgb) / 0.72) 40%,
+        rgb(var(--ink-rgb) / 0.4) 60%,
+        rgb(var(--ink-rgb) / 0.1) 82%,
+        rgb(var(--ink-rgb) / 0) 100%
       );
     }
   }

@@ -78,13 +78,11 @@ export const heroImage: HeroImageConfig = {
   desktop: { src: "/assets/hero/hero-desktop.webp", width: 1672, height: 941 },
 
   /**
-   * No separate portrait crop yet. One is only worth adding when there is a
-   * source big enough to cut it from — the saree occupies about 600px of the
-   * current file, which would be upscaled and soft on a phone. Until then the
-   * desktop file is positioned right so the drape, not the empty left panel,
-   * is what fills a portrait screen.
+   * Portrait crop of the drape, so a phone fills with the saree rather than
+   * the flat ground on the left. 627px is narrow for a 3x screen and will be
+   * slightly soft — the fix is a larger original, not upscaling this one.
    */
-  mobile: null,
+  mobile: { src: "/assets/hero/hero-mobile.webp", width: 627, height: 941 },
 
   // Decorative: the h1 beside it already says what the page is, and the image's
   // own baked-in text is covered by the scrim.
