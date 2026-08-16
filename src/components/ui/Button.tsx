@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "whatsapp";
+type Variant = "primary" | "secondary" | "secondaryOnInk" | "whatsapp";
 
 // 48px min height, 2px radius, no shadows. Depth comes from the pleat gradient;
 // a drop shadow on an ivory page is the fastest way to look generic.
@@ -16,6 +16,11 @@ const variants: Record<Variant, string> = {
   primary: "bg-rose text-ivory hover:bg-magenta",
   // Gold is the line color of the brand — border only, never the text color.
   secondary: "border border-gold bg-transparent text-ink hover:bg-sand",
+  // Same button on an ink surface. `secondary` cannot be reused there: its
+  // ink text is invisible on ink, and gold text would be the one thing the
+  // palette rules forbid. Ivory on ink is 17.5:1.
+  secondaryOnInk:
+    "border border-gold bg-transparent text-ivory hover:bg-ivory/10",
   whatsapp: "border border-gold bg-ink text-ivory hover:bg-rose",
 };
 

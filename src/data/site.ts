@@ -1,3 +1,5 @@
+import type { HeroImageConfig } from "@/types";
+
 // Single source of truth for NAP, socials and every headline number.
 // NAP must be byte-identical here, on Google Business Profile, on Instagram
 // and on Justdial — docs/04-architecture.md, local SEO.
@@ -59,22 +61,35 @@ export const stats = {
 /**
  * Hero background photograph.
  *
- * Flip `enabled` to true once both files exist in public/assets/hero/. Until
- * then the hero renders the CSS pleat field, so a missing file can never show
- * as a broken image on the most important screen on the site.
+ * Set `enabled` to false to fall back to the CSS pleat field — that is also
+ * what happens before any file exists, so a missing image can never show as a
+ * broken one on the most important screen on the site.
  *
- * Two files, not one: the hero is landscape on desktop and portrait on mobile,
- * and a single landscape crop loses its subject on a phone. See
- * public/assets/README.md for the exact dimensions.
+ * Regenerate the files from the branding banner with `npm run hero`.
  */
-export const heroImage = {
-  enabled: false,
-  desktop: { src: "/assets/hero/hero-desktop.webp", width: 2400, height: 1350 },
-  mobile: { src: "/assets/hero/hero-mobile.webp", width: 1200, height: 1800 },
-  // Decorative: the h1 beside it already says what the page is. Give this a real
-  // description only if the photograph carries information the copy does not.
+export const heroImage: HeroImageConfig = {
+  enabled: true,
+
+  /**
+   * Generated from Branding.png by `npm run hero`. Native resolution — the
+   * source is 1672px wide, under the 2400px a full-bleed desktop hero wants, so
+   * it is soft on a 1440p display. Ask the client for a larger original.
+   */
+  desktop: { src: "/assets/hero/hero-desktop.webp", width: 1672, height: 941 },
+
+  /**
+   * No separate portrait crop yet. One is only worth adding when there is a
+   * source big enough to cut it from — the saree occupies about 600px of the
+   * current file, which would be upscaled and soft on a phone. Until then the
+   * desktop file is positioned right so the drape, not the empty left panel,
+   * is what fills a portrait screen.
+   */
+  mobile: null,
+
+  // Decorative: the h1 beside it already says what the page is, and the image's
+  // own baked-in text is covered by the scrim.
   alt: "",
-} as const;
+};
 
 export const nav = [
   { href: "/services", label: "Services" },

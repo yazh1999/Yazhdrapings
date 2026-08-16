@@ -2,20 +2,21 @@ import { getImageProps } from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { heroImage, stats } from "@/data/site";
+import { cn } from "@/lib/utils";
+
+const hasPhoto = heroImage.enabled;
 
 /**
- * Hero background.
+ * Art direction via getImageProps + <picture>, per the Next 16 docs, but only
+ * when a portrait crop actually exists. Two <Image> components toggled with
+ * `hidden` would not do: a display:none image is still fetched, so a phone
+ * would download the desktop file as well as its own.
  *
- * Art direction via getImageProps + <picture>, which is how Next 16 documents
- * it. Two <Image> components toggled with `hidden` would not work: a
- * display:none image is still fetched, so the phone would download the 2400px
- * desktop file as well as its own.
- *
- * Falls back to the CSS pleat field when no photograph is configured — see
- * heroImage in data/site.ts.
+ * With no portrait crop, one file is used at every size and positioned right,
+ * so a portrait screen fills with the drape rather than the empty left panel.
  */
 function HeroBackground() {
-  if (!heroImage.enabled) {
+  if (!hasPhoto) {
     return <div className="pleat-fan" aria-hidden="true" />;
   }
 
@@ -27,53 +28,82 @@ function HeroBackground() {
   };
 
   const {
-    props: { srcSet: desktop },
+    props: { srcSet: desktop, ...rest },
   } = getImageProps({ ...common, ...heroImage.desktop });
 
-  const {
-    props: { srcSet: mobile, ...rest },
-  } = getImageProps({ ...common, ...heroImage.mobile });
+  const mobile = heroImage.mobile
+    ? getImageProps({ ...common, ...heroImage.mobile }).props.srcSet
+    : null;
 
   return (
     <picture>
-      <source media="(min-width: 1024px)" srcSet={desktop} />
-      <source srcSet={mobile} />
+      {mobile && <source media="(min-width: 1024px)" srcSet={desktop} />}
+      {mobile && <source srcSet={mobile} />}
       {/* alt is already inside `rest`; repeating it is for the linter, which
           cannot see through the spread. Same value, so nothing is overridden. */}
       <img
         {...rest}
         alt={heroImage.alt}
-        className="absolute inset-0 size-full object-cover"
+        className="absolute inset-0 size-full object-cover object-right lg:object-center"
       />
     </picture>
   );
 }
 
 /**
- * The hero deliberately has no photograph in the original design — a saree
- * service whose homepage opens with a stock model looks like every tailor's
- * site in India, and the CSS field costs nothing on 4G. A real photograph of
- * real work is a legitimate upgrade on that; stock imagery is not.
+ * Hero.
  *
- * Stays a Server Component either way: the fan is a pure CSS keyframe.
+ * When a photograph backs it, the whole section flips to a dark treatment —
+ * ivory type over ink rather than ink over ivory. That is not a style choice.
+ * The branding photography is near-black, and the ink headline that reads at
+ * 17.5:1 on ivory is invisible on it.
+ *
+ * The scrim also covers the left of the image, where the banner's own headline,
+ * subtitle and service icons are baked into the pixels. Those cannot stay
+ * visible: our live headline would be the second one on screen, and baked text
+ * earns nothing for "saree pre pleating Chennai", which docs/01-brief.md makes
+ * a top-three ranking target.
+ *
+ * Stays a Server Component: the fan is a pure CSS keyframe and the picture is
+ * built at render time.
  */
 export function Hero() {
   return (
-    <section className="relative isolate flex min-h-[88svh] items-center overflow-hidden border-b border-gold/40">
+    <section
+      className={cn(
+        "relative isolate flex min-h-[88svh] items-center overflow-hidden border-b border-gold/40",
+        hasPhoto && "bg-ink",
+      )}
+    >
       <HeroBackground />
-      <div className="hero-scrim" aria-hidden="true" />
+      <div
+        className={hasPhoto ? "hero-scrim--dark" : "hero-scrim"}
+        aria-hidden="true"
+      />
 
       <div className="relative mx-auto w-full max-w-content px-6 py-24">
         <div className="max-w-[36rem]">
-          <Eyebrow>Chennai · Saree pre-pleating</Eyebrow>
+          <Eyebrow tone={hasPhoto ? "ink" : "ivory"}>
+            Chennai · Saree pre-pleating
+          </Eyebrow>
 
-          <h1 className="mt-8 font-display text-display-xl text-ink">
+          <h1
+            className={cn(
+              "mt-8 font-display text-display-xl",
+              hasPhoto ? "text-ivory" : "text-ink",
+            )}
+          >
             Nine folds,
             <br />
             set overnight.
           </h1>
 
-          <p className="mt-8 max-w-[44ch] text-body text-ink/85">
+          <p
+            className={cn(
+              "mt-8 max-w-[44ch] text-body",
+              hasPhoto ? "text-ivory/85" : "text-ink/85",
+            )}
+          >
             Your saree comes back pleated, pressed and pinned — ready to wear in
             under a minute. Cotton to{" "}
             <em className="font-display italic">Kanjivaram</em>, we set them all
@@ -82,14 +112,22 @@ export function Hero() {
 
           <div className="mt-10 flex flex-wrap gap-3">
             <Button href="/book">Book a pickup</Button>
-            <Button href="/gallery" variant="secondary">
+            <Button
+              href="/gallery"
+              variant={hasPhoto ? "secondaryOnInk" : "secondary"}
+            >
               See our work
             </Button>
           </div>
 
-          <p className="mt-10 text-small text-muted">
+          <p
+            className={cn(
+              "mt-10 text-small",
+              hasPhoto ? "text-ivory/65" : "text-muted",
+            )}
+          >
             Doorstep pickup across Chennai · Back in{" "}
-            <span className="tabular text-ink">
+            <span className={cn("tabular", hasPhoto ? "text-gold" : "text-ink")}>
               {stats.standardTurnaroundHours} hrs
             </span>
           </p>

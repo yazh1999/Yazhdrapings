@@ -9,7 +9,9 @@
     "lint": "eslint",
     "check:tokens": "node scripts/check-tokens.mjs",
     "verify": "npm run check:tokens && npx tsc --noEmit && npm run lint && npm run build",
-    "icons": "node scripts/generate-icons.mjs"
+    "icons": "node scripts/generate-icons.mjs",
+    "hero": "node scripts/generate-hero.mjs",
+    "assets": "npm run icons && npm run hero"
   },
   "dependencies": {
     "next": "16.3.1",

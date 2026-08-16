@@ -84,8 +84,9 @@
 --------------------------------------------------------------------------- */
 
 :root {
-  /* Channel triple so scrims can take an alpha without a second hex. */
+  /* Channel triples so scrims can take an alpha without a second hex. */
   --ivory-rgb: 255 250 246;
+  --ink-rgb: 43 10 22;
 
   --pleat-gradient: repeating-linear-gradient(
     90deg,
@@ -184,6 +185,39 @@
         rgb(var(--ivory-rgb) / 0.96) 32%,
         rgb(var(--ivory-rgb) / 0.72) 54%,
         rgb(var(--ivory-rgb) / 0.18) 100%
+      );
+    }
+  }
+
+  /* Dark scrim, used when a photograph backs the hero.
+     Two jobs, not one:
+       1. Contrast. Ivory type over a photograph needs a floor under it.
+       2. Cover. The branding banner has its own headline, subtitle and service
+          icons baked into the left of the image. Opaque ink to 48% hides them,
+          so only the photography shows and our live, indexable headline is the
+          one on screen.
+     Mobile is a vertical ramp instead: the frame is cropped to the drape, so
+     there is no left panel to hide, only text to keep legible. */
+  .hero-scrim--dark {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgb(var(--ink-rgb) / 0.94) 0%,
+      rgb(var(--ink-rgb) / 0.86) 52%,
+      rgb(var(--ink-rgb) / 0.72) 100%
+    );
+  }
+
+  @media (min-width: 1024px) {
+    .hero-scrim--dark {
+      background: linear-gradient(
+        90deg,
+        rgb(var(--ink-rgb) / 0.98) 0%,
+        rgb(var(--ink-rgb) / 0.97) 44%,
+        rgb(var(--ink-rgb) / 0.82) 58%,
+        rgb(var(--ink-rgb) / 0.35) 78%,
+        rgb(var(--ink-rgb) / 0.15) 100%
       );
     }
   }

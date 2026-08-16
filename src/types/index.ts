@@ -69,6 +69,20 @@ export interface GalleryItem {
   height: number;
 }
 
+export interface HeroImageSource {
+  src: string;
+  width: number;
+  height: number;
+}
+
+export interface HeroImageConfig {
+  enabled: boolean;
+  desktop: HeroImageSource;
+  /** Optional portrait crop. Null means one file serves every size. */
+  mobile: HeroImageSource | null;
+  alt: string;
+}
+
 export interface Testimonial {
   quote: string;
   name: string;
