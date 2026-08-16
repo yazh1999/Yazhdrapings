@@ -1,26 +1,201 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------------
+   Design tokens — docs/02-design-system.md
+   Every color in the codebase comes from here. No hex values in components.
+--------------------------------------------------------------------------- */
+
+@theme {
+  /* Wipe Tailwind's default palette. Load-bearing: Tailwind ships its own `rose`
+     scale, a different pink. Without this, `text-rose-600` silently resolves to
+     the wrong color and nobody catches it in review. Now it is a build error. */
+  --color-*: initial;
+
+  --color-rose: #cb2056;
+  --color-magenta: #d02e73;
+  --color-gold: #e8ba80;
+  --color-ink: #2b0a16;
+  --color-ivory: #fffaf6;
+  --color-sand: #f4e7db;
+  --color-muted: #7d5b64;
+
+  /* Keywords the wipe removes that we still need. */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-inherit: inherit;
+
+  /* Type scale — fluid, clamped. Bodoni never runs below 20px. */
+  --text-display-xl: clamp(3rem, 11vw, 8rem);
+  --text-display-xl--line-height: 0.88;
+  --text-display-xl--letter-spacing: -0.03em;
+
+  --text-display-lg: clamp(2.25rem, 6vw, 4.5rem);
+  --text-display-lg--line-height: 1;
+  --text-display-lg--letter-spacing: -0.02em;
+
+  --text-display-md: clamp(1.75rem, 4vw, 2.75rem);
+  --text-display-md--line-height: 1.1;
+  --text-display-md--letter-spacing: -0.01em;
+
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.35;
+
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.7;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.6;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.18em;
+
+  --text-numeric: 1.125rem;
+  --text-numeric--line-height: 1.4;
+
+  /* Pleats have creases, not rounded corners. */
+  --radius-fold: 2px;
+  --radius-card: 4px;
+
+  /* Section rhythm lives in one token so no two selectors fight over margins. */
+  --spacing-section: clamp(4rem, 9vw, 8rem);
+
+  --container-content: 1240px;
+  --container-prose: 62ch;
+
+  --ease-fold: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Fonts resolve at the use site, so they need `inline` — the next/font variables
+   are set on <html> at runtime and would otherwise be indirected twice. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-bodoni), Georgia, serif;
+  --font-body: var(--font-manrope), system-ui, sans-serif;
+  --font-tamil: var(--font-tamil-serif), serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------------------------------------------------------------------------
+   The pleat motif — docs/02-design-system.md
+   A pleat is three bands: a lit edge, a face, a shadowed crease.
+   One 44px fold: gold lit edge -> ivory face -> rose/magenta crease.
+--------------------------------------------------------------------------- */
+
+:root {
+  --pleat-gradient: repeating-linear-gradient(
+    90deg,
+    var(--color-gold) 0px,
+    var(--color-ivory) 3px,
+    var(--color-ivory) 34px,
+    var(--color-rose) 40px,
+    var(--color-magenta) 41px,
+    var(--color-gold) 44px
+  );
+}
+
+@layer base {
+  html {
+    /* Do not let the fanning hero widen the page on mobile. */
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    font-size: var(--text-body);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Focus is non-negotiable: 2px rose ring, 2px offset, on everything. */
+  :focus-visible {
+    outline: 2px solid var(--color-rose);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-rose);
+    color: var(--color-ivory);
+  }
+
+  /* Numbers never sit in Manrope. */
+  .tabular {
+    font-family: var(--font-dm-mono), ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .pleats {
+    background-image: var(--pleat-gradient);
+  }
+
+  /* Hero fan — animates `transform`, never `background-size`.
+     background-size repaints the gradient on the main thread every frame, which
+     janks on the mid-range Android that is the actual target device, and lands
+     directly on the LCP element. scaleX is compositor-owned. */
+  .pleat-fan {
+    position: absolute;
+    inset: 0;
+    background-image: var(--pleat-gradient);
+    transform: scaleX(0.06);
+    transform-origin: 50% 50%;
+    will-change: transform;
+    animation: fan-open 900ms var(--ease-fold) both;
+  }
+
+  /* Dropped by HeroFanCleanup on animationend so the promoted layer does not
+     sit in memory for the rest of the session. */
+  .pleat-fan--settled {
+    will-change: auto;
+  }
+
+  .pleat-loader-bar {
+    animation: pleat-fall 640ms var(--ease-fold) infinite alternate;
+  }
+}
+
+@keyframes fan-open {
+  from {
+    transform: scaleX(0.06);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes pleat-fall {
+  from {
+    transform: translateY(-18%);
+    opacity: 0.35;
+  }
+  to {
+    transform: translateY(18%);
+    opacity: 1;
+  }
+}
+
+/* Nothing loops, nothing parallaxes, and all of it stops on request. */
+@media (prefers-reduced-motion: reduce) {
+  .pleat-fan {
+    animation: none;
+    transform: none;
+  }
+
+  .pleat-loader-bar {
+    animation: none;
+    opacity: 1;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

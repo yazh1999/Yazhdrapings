@@ -1,69 +1,135 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { PleatDivider } from "@/components/ui/PleatDivider";
+import { Section } from "@/components/ui/Section";
+import { featuredServices } from "@/data/services";
+import { stats } from "@/data/site";
+import { formatPriceFrom } from "@/lib/utils";
+import { buildWhatsAppUrl, hasWhatsApp } from "@/lib/whatsapp";
 
+/**
+ * CHECKPOINT 1 — foundation preview, not the real home page.
+ *
+ * Its job is to make the pleat gradient judgeable at the three sizes it has to
+ * survive (full-bleed hero, 2px divider, 6px card strip) and to prove the chrome
+ * works. Milestone 2 replaces this entirely with the real sections from
+ * docs/03-pages-and-copy.md.
+ */
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      {/* Full-bleed pleat field. No photograph — the fold itself is the hero. */}
+      <section className="relative isolate flex min-h-[70vh] items-center overflow-hidden">
+        <div className="pleat-fan" aria-hidden="true" />
+        <div className="relative mx-auto w-full max-w-content px-6">
+          <div className="max-w-[20ch] bg-ivory/85 p-6 backdrop-blur-[2px] sm:p-10">
+            <Eyebrow>Chennai · Saree pre-pleating</Eyebrow>
+            <h1 className="mt-6 font-display text-display-xl">
+              Nine folds, set overnight.
+            </h1>
+          </div>
+        </div>
+      </section>
+
+      <Section>
+        <p className="max-w-prose text-body text-muted">
+          Foundation preview. The tokens, fonts, primitives and chrome are in
+          place. The pleat gradient appears below at the three sizes it has to
+          work at — judge it here before Milestone 2 builds on it.
+        </p>
+
+        <div className="mt-12 space-y-4">
+          <p className="text-eyebrow font-semibold uppercase text-muted">
+            Divider — 2px at 30%
           </p>
+          <PleatDivider />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="mt-12 space-y-4">
+          <p className="text-eyebrow font-semibold uppercase text-muted">
+            Card strip — 6px
+          </p>
+          <div className="flex">
+            <div className="pleats w-1.5 shrink-0" />
+            <div className="flex-1 bg-sand p-6">
+              <p className="text-small text-ink">
+                The strip slides in from the left on hover. That is the entire
+                interaction — no lift, no shadow, no scale.
+              </p>
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+
+        <div className="mt-12 space-y-4">
+          <p className="text-eyebrow font-semibold uppercase text-muted">
+            Full bleed
+          </p>
+          <div className="pleats h-32 w-full" />
+        </div>
+      </Section>
+
+      {/* Trust strip — every number from site.stats, none typed here. */}
+      <Section tone="sand">
+        <Eyebrow tone="sand">Where we are</Eyebrow>
+        <dl className="mt-8 grid grid-cols-2 gap-8 lg:grid-cols-4">
+          {[
+            { value: `${stats.sareesPleated.toLocaleString("en-IN")}+`, label: "sarees pleated" },
+            { value: `${stats.standardTurnaroundHours} hrs`, label: "standard turnaround" },
+            { value: `${stats.handSetPct}%`, label: "hand-set" },
+            { value: `₹0`, label: `pickup above ₹${stats.freePickupAbove}` },
+          ].map((item) => (
+            <div key={item.label}>
+              <dt className="sr-only">{item.label}</dt>
+              <dd>
+                <span className="tabular block text-display-md text-rose">
+                  {item.value}
+                </span>
+                <span className="mt-1 block text-small text-muted">
+                  {item.label}
+                </span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </Section>
+
+      {/* Prices from services.ts — never typed into JSX. */}
+      <Section>
+        <Eyebrow>What we do</Eyebrow>
+        <h2 className="mt-6 font-display text-display-md">
+          Everything between the fold and the front door.
+        </h2>
+        <ul className="mt-10 grid gap-6 md:grid-cols-3">
+          {featuredServices.map((service) => (
+            <li key={service.slug} className="flex bg-sand">
+              <div className="w-1.5 shrink-0 bg-transparent transition-colors duration-240 ease-out group-hover:bg-rose" />
+              <div className="p-6">
+                <h3 className="text-title font-semibold">{service.name}</h3>
+                <p className="mt-2 text-small text-muted">{service.summary}</p>
+                <p className="tabular mt-4 text-numeric text-ink">
+                  {formatPriceFrom(service.price)}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section tone="ink">
+        <h2 className="font-display text-display-md">Send us your saree.</h2>
+        <p className="mt-4 max-w-prose text-body text-ivory/80">
+          Message us with a photo and the date you need it. We&apos;ll tell you
+          the price and the day it comes back.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          {hasWhatsApp() && (
+            <Button href={buildWhatsAppUrl()} variant="whatsapp">
+              Message on WhatsApp
+            </Button>
+          )}
+          <Button href="/book">Book a pickup</Button>
+        </div>
+      </Section>
+    </>
   );
 }

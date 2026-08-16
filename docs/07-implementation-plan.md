@@ -73,7 +73,7 @@ expensive to undo once thirty components depend on it.
 
 | ID | Task | Files | Depends | Done when |
 |---|---|---|---|---|
-| 1.1 | `@theme` token block, verbatim from `02` | `src/app/globals.css` | 0.3 | `bg-rose` works **and `text-rose-600` is a build error** — that is the test that `--color-*: initial` landed |
+| 1.1 | `@theme` token block, verbatim from `02` | `src/app/globals.css` | 0.3 | `bg-rose` works, and the default palette is absent from the built CSS. `text-rose-600` is **not** a build error — Tailwind v4 drops unknown utilities silently — so `npm run check:tokens` is what actually enforces it. |
 | 1.2 | Four fonts via `next/font/google` | `src/app/layout.tsx` | 1.1 | Bodoni, Manrope, Noto Serif Tamil, DM Mono all render; `display: "swap"`; no layout shift on reload |
 | 1.3 | Type definitions | `src/types/index.ts` | 0.3 | `Price`, `Turnaround`, `Service`, `Charge`, `GalleryItem` compile |
 | 1.4 | Site data + `stats` | `src/data/site.ts` | 1.3 | NAP, hours, socials, and the four trust-strip numbers, all typed |

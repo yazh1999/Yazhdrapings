@@ -104,11 +104,17 @@ config file.
 a completely different pink. Declaring a bare `--color-rose` adds `bg-rose` but does *not* remove
 `bg-rose-500`, so both resolve and the wrong one is one keystroke away — an editor autocompleting
 `text-rose-` to `text-rose-600` produces a plausible-looking pink that is not the brand color, and
-nobody catches it in review. Wiping the default palette makes that a build error instead of a bug.
+nobody catches it in review. Wiping the default palette removes that failure mode.
 
-The same applies to `gold`, `sand` and `ink`, which have no Tailwind default and so would silently
-fall back to nothing if misspelled. With `--color-*: initial`, any class outside this token list
-fails loudly. That is the point.
+**But it does not make it a build error.** Verified against Tailwind v4 in this project: an unknown
+utility in JSX is silently dropped — no warning, no error, no CSS. So after the wipe,
+`text-rose-600` compiles clean and the text just quietly inherits its color. Better than rendering
+the wrong pink, still a bug you find in review or never.
+
+The real guard is `scripts/check-tokens.mjs`, run by `npm run check:tokens` and `npm run verify`.
+It fails on any numeric suffix against a brand token (`text-rose-600`, `bg-gold-400`) and on any raw
+hex outside `globals.css`, enforcing ground rules 1 and 2 from the README. Comments are stripped
+before scanning, so prose discussing a bad class is not flagged as a use of it.
 
 ---
 
