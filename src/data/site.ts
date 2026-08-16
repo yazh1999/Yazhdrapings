@@ -56,6 +56,26 @@ export const stats = {
   freePickupAbove: 800,
 } as const;
 
+/**
+ * Hero background photograph.
+ *
+ * Flip `enabled` to true once both files exist in public/assets/hero/. Until
+ * then the hero renders the CSS pleat field, so a missing file can never show
+ * as a broken image on the most important screen on the site.
+ *
+ * Two files, not one: the hero is landscape on desktop and portrait on mobile,
+ * and a single landscape crop loses its subject on a phone. See
+ * public/assets/README.md for the exact dimensions.
+ */
+export const heroImage = {
+  enabled: false,
+  desktop: { src: "/assets/hero/hero-desktop.webp", width: 2400, height: 1350 },
+  mobile: { src: "/assets/hero/hero-mobile.webp", width: 1200, height: 1800 },
+  // Decorative: the h1 beside it already says what the page is. Give this a real
+  // description only if the photograph carries information the copy does not.
+  alt: "",
+} as const;
+
 export const nav = [
   { href: "/services", label: "Services" },
   { href: "/pricing", label: "Pricing" },

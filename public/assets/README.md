@@ -11,6 +11,7 @@ photography.** An empty section is better than a borrowed one.
 
 | Folder | What | Used by |
 |---|---|---|
+| `hero/` | The home hero background — two files, see below | Home hero |
 | `services/` | One image per service, named for its slug — `pre-pleating-light.webp`, `kuchu.webp` | `/services`, home services preview |
 | `gallery/` | Finished work, 20–30 images | `/gallery`, home gallery preview |
 | `process/` | One per step of the four-step process | `/how-it-works` |
@@ -19,6 +20,54 @@ photography.** An empty section is better than a borrowed one.
 
 Service filenames must match the `slug` in `src/data/services.ts`, since that is what
 `Service.image` points at.
+
+## `hero/` — exact dimensions
+
+The hero is **full-bleed and `88svh` tall**. That makes it landscape on a desktop and *portrait* on
+a phone, so one file cannot serve both — a 16:9 image cropped into a phone-shaped hole loses roughly
+two-thirds of its width, and whatever the photograph was about goes with it.
+
+**Two files. Exact names, or the code will not find them:**
+
+| File | Size | Aspect | Target weight |
+|---|---|---|---|
+| `hero-desktop.webp` | **2400 × 1350** | 16:9 | under 250KB |
+| `hero-mobile.webp` | **1200 × 1800** | 2:3 portrait | under 150KB |
+
+2400 on the long edge matches the photography brief in `docs/05-roadmap.md`, so the same delivery
+covers both. Next resizes down from there for every smaller screen — you never need a 1x version.
+
+### The safe zone matters more than the resolution
+
+The headline sits over the image. On desktop it occupies the **left 45%**, top to bottom; on mobile
+it covers the **middle 60%** vertically, full width.
+
+- Put the subject — the fold stack, the pallu, the hands — in the **right half** on desktop and the
+  **bottom third** on mobile.
+- Keep the headline area quiet. Busy detail or hard highlights behind Bodoni will fight it, and
+  Bodoni's hairlines are the first thing to disappear.
+- An ivory scrim already sits over the image and carries most of the contrast, but it cannot rescue
+  a bright pattern directly behind the type.
+
+`object-fit: cover` centres and crops both files, so keep a little breathing room at every edge.
+
+### Turning it on
+
+Both files must exist, then in `src/data/site.ts`:
+
+```ts
+export const heroImage = {
+  enabled: true,   // ← flip this
+  ...
+}
+```
+
+Until then the hero renders the CSS pleat field. That is why a missing file cannot show up as a
+broken image on the most important screen on the site.
+
+If you supply a different size, change `width` and `height` in `heroImage` to the real pixel
+dimensions — they set the aspect ratio the browser reserves, and wrong numbers cause layout shift
+against a 0.05 CLS budget.
 
 ## `logo/`
 
