@@ -16,13 +16,13 @@ export function ServicesPreview() {
         </div>
         <Link
           href="/services"
-          className="text-small font-semibold text-rose underline-offset-4 hover:underline"
+          className="relative inline-flex items-center text-small font-semibold text-rose underline-offset-4 after:absolute after:left-0 after:top-1/2 after:h-11 after:w-full after:-translate-y-1/2 after:content-[''] hover:underline"
         >
           See all services &rarr;
         </Link>
       </div>
 
-      <ul className="mt-16 grid gap-px bg-gold/40 md:grid-cols-3">
+      <ul className="mt-10 grid gap-px bg-gold/40 md:mt-16 md:grid-cols-3">
         {featuredServices.map((service) => (
           <li
             key={service.slug}
@@ -35,7 +35,7 @@ export function ServicesPreview() {
               className="pleat-reveal pleats absolute inset-y-0 left-0 w-1.5"
             />
 
-            <div className="p-8 pl-10">
+            <div className="p-6 pl-8 lg:p-8 lg:pl-10 xl:p-10 xl:pl-12">
               <h3 className="text-title font-semibold text-ink">
                 {/* Stretched link — the whole card is the target, but only one
                     focusable element and one accessible name. */}

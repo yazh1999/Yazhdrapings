@@ -13,8 +13,8 @@ import { Section } from "@/components/ui/Section";
 export function WhyHandSet() {
   return (
     <Section>
-      <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-5">
+      <div className="grid items-center gap-10 md:grid-cols-12 md:gap-10 lg:gap-16 xl:gap-20">
+        <div className="md:col-span-6 lg:col-span-5">
           <Eyebrow>Why it matters</Eyebrow>
 
           <h2 className="mt-6 font-display text-display-md">
@@ -36,7 +36,7 @@ export function WhyHandSet() {
           </div>
         </div>
 
-        <div className="lg:col-span-7">
+        <div className="md:col-span-6 lg:col-span-7">
           <div className="pleats aspect-[4/3] w-full border border-gold/40" />
         </div>
       </div>

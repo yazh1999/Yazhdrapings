@@ -116,11 +116,6 @@
 }
 
 @layer base {
-  html {
-    /* Do not let the fanning hero widen the page on mobile. */
-    overflow-x: hidden;
-  }
-
   body {
     background-color: var(--color-ivory);
     color: var(--color-ink);
@@ -193,7 +188,7 @@
     );
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     .hero-scrim {
       background: linear-gradient(
         100deg,
@@ -227,7 +222,7 @@
     );
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     .hero-scrim--dark {
       background: linear-gradient(
         90deg,

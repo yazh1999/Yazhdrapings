@@ -41,7 +41,7 @@ export default function ServicesPage() {
           We come to you, and we allow enough time.
         </h2>
 
-        <div className="mt-16 space-y-20 lg:space-y-28">
+        <div className="mt-10 space-y-16 md:mt-16 md:space-y-24 lg:space-y-28">
           {drapingServices.map((service, i) => (
             <ServiceBlock
               key={service.slug}
@@ -60,7 +60,7 @@ export default function ServicesPage() {
           Leave it with us overnight.
         </h2>
 
-        <div className="mt-16 space-y-20 lg:space-y-28">
+        <div className="mt-10 space-y-16 md:mt-16 md:space-y-24 lg:space-y-28">
           {sendInServices.map((service, i) => (
             <ServiceBlock
               key={service.slug}

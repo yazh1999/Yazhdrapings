@@ -27,7 +27,7 @@ export function Wordmark({
   return (
     <Link
       href="/"
-      className={cn("flex items-center gap-3", className)}
+      className={cn("flex min-w-0 items-center gap-2.5 sm:gap-3", className)}
       aria-label={`${site.name} — home`}
     >
       <Image
@@ -48,7 +48,7 @@ export function Wordmark({
             NAP has to be identical across all four for local search. */}
         <span
           className={cn(
-            "block font-display text-[1.4rem] leading-none tracking-tight whitespace-nowrap",
+            "block font-display text-[1.2rem] leading-none tracking-tight whitespace-nowrap sm:text-[1.35rem] lg:text-[1.4rem]",
             tone === "ink" ? "text-ink" : "text-ivory",
           )}
         >

@@ -19,7 +19,7 @@ export function WhatsAppBar() {
         rel="noopener noreferrer"
         data-analytics="whatsapp_click"
         data-analytics-location="persistent-bar-mobile"
-        className="fixed inset-x-0 bottom-0 z-40 flex min-h-14 items-center justify-center border-t border-gold bg-ink px-6 text-center text-small font-semibold text-ivory lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 flex min-h-14 items-center justify-center border-t border-gold bg-ink px-6 text-center text-small font-semibold text-ivory md:hidden"
       >
         Message us on WhatsApp
       </a>
@@ -31,7 +31,7 @@ export function WhatsAppBar() {
         rel="noopener noreferrer"
         data-analytics="whatsapp_click"
         data-analytics-location="persistent-pill-desktop"
-        className="fixed bottom-8 right-8 z-40 hidden min-h-12 items-center gap-2 rounded-fold border border-gold bg-ink px-6 text-small font-semibold text-ivory transition-colors duration-160 ease-out hover:bg-rose lg:inline-flex"
+        className="fixed bottom-8 right-8 z-40 hidden min-h-12 items-center gap-2 rounded-button border border-gold bg-ink px-6 text-small font-semibold text-ivory transition-colors duration-160 ease-out hover:bg-rose md:inline-flex xl:bottom-10 xl:right-10"
       >
         Message us on WhatsApp
       </a>

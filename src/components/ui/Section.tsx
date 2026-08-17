@@ -1,4 +1,5 @@
 import type { ElementType, ReactNode } from "react";
+import { Container } from "./Container";
 import { cn } from "@/lib/utils";
 
 type Tone = "ivory" | "sand" | "ink";
@@ -26,9 +27,7 @@ export function Section({
 }) {
   return (
     <Tag className={cn("py-section", tones[tone], className)}>
-      <div className={cn("mx-auto w-full max-w-content px-6", innerClassName)}>
-        {children}
-      </div>
+      <Container className={innerClassName}>{children}</Container>
     </Tag>
   );
 }

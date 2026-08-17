@@ -23,12 +23,12 @@ export function Eyebrow({
   return (
     <p
       className={cn(
-        "flex items-center gap-3 font-body text-eyebrow font-semibold uppercase",
+        "flex flex-wrap items-baseline gap-x-3 gap-y-1 font-body text-eyebrow font-semibold uppercase",
         toneText[tone],
         className,
       )}
     >
-      <span aria-hidden="true" className="h-px w-6 shrink-0 bg-gold" />
+      <span aria-hidden="true" className="mb-1 h-px w-6 shrink-0 self-center bg-gold" />
       {children}
     </p>
   );

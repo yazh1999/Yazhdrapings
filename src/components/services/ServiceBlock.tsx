@@ -40,7 +40,7 @@ function Plate({ service }: { service: Service }) {
         alt={`${service.name} — work by Yazh Drapings`}
         width={1200}
         height={900}
-        sizes="(min-width: 1024px) 58vw, 100vw"
+        sizes="(min-width: 1024px) 58vw, (min-width: 768px) 50vw, 100vw"
         className="aspect-[4/3] w-full border border-gold/40 object-cover"
       />
     );
@@ -69,9 +69,9 @@ export function ServiceBlock({
       id={service.slug}
       // Anchored from the footer and the home cards. scroll-mt clears the
       // sticky header, or the heading lands underneath it.
-      className="grid scroll-mt-28 items-center gap-10 lg:grid-cols-12 lg:gap-16"
+      className="grid scroll-mt-24 items-center gap-8 md:scroll-mt-28 md:grid-cols-12 md:gap-10 lg:gap-16"
     >
-      <div className={cn("lg:col-span-5", flip && "lg:order-2")}>
+      <div className={cn("md:col-span-6 lg:col-span-5", flip && "md:order-2")}>
         <h3 className="font-display text-display-md">{service.name}</h3>
 
         {service.tamilName && (
@@ -85,13 +85,13 @@ export function ServiceBlock({
         <dl className="mt-7 space-y-2 border-t border-gold/40 pt-5">
           {rows.map((row) => (
             <div key={row.label} className="flex gap-4 text-small">
-              <dt className="w-28 shrink-0 text-muted">{row.label}</dt>
-              <dd className="text-ink">{row.value}</dd>
+              <dt className="w-24 shrink-0 text-muted sm:w-28">{row.label}</dt>
+              <dd className="min-w-0 text-ink">{row.value}</dd>
             </div>
           ))}
           <div className="flex gap-4 pt-1">
-            <dt className="w-28 shrink-0 text-small text-muted">Price</dt>
-            <dd className="tabular text-numeric text-ink">
+            <dt className="w-24 shrink-0 text-small text-muted sm:w-28">Price</dt>
+            <dd className="tabular min-w-0 text-numeric text-ink">
               {formatPrice(service.price)}
             </dd>
           </div>
@@ -110,7 +110,7 @@ export function ServiceBlock({
         )}
       </div>
 
-      <div className={cn("lg:col-span-7", flip && "lg:order-1")}>
+      <div className={cn("md:col-span-6 lg:col-span-7", flip && "md:order-1")}>
         <Plate service={service} />
       </div>
     </article>

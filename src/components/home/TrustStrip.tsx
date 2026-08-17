@@ -1,3 +1,4 @@
+import { Container } from "@/components/ui/Container";
 import { stats } from "@/data/site";
 import { cn } from "@/lib/utils";
 
@@ -13,16 +14,16 @@ const items = [
 export function TrustStrip() {
   return (
     <section className="border-b border-gold/40 bg-sand">
-      <div className="mx-auto w-full max-w-content px-6 py-14">
-        <dl className="grid grid-cols-2 gap-y-10 lg:grid-cols-4">
+      <Container className="py-10 sm:py-14">
+        <dl className="grid grid-cols-2 gap-y-10 md:grid-cols-4 md:gap-y-0">
           {items.map((item, i) => (
             <div
               key={item.label}
               className={cn(
-                "px-4 text-center",
+                "px-2 text-center sm:px-4",
                 // Gold hairlines between, never around.
-                i % 2 === 1 && "border-l border-gold/40",
-                i > 0 && "lg:border-l lg:border-gold/40",
+                i % 2 === 1 && "max-md:border-l max-md:border-gold/40",
+                i > 0 && "md:border-l md:border-gold/40",
               )}
             >
               <dt className="sr-only">{item.label}</dt>
@@ -37,7 +38,7 @@ export function TrustStrip() {
             </div>
           ))}
         </dl>
-      </div>
+      </Container>
     </section>
   );
 }

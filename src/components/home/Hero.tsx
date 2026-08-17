@@ -1,5 +1,6 @@
 import { getImageProps } from "next/image";
 import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { heroImage, stats } from "@/data/site";
 import { cn } from "@/lib/utils";
@@ -37,14 +38,14 @@ function HeroBackground() {
 
   return (
     <picture>
-      {mobile && <source media="(min-width: 1024px)" srcSet={desktop} />}
+      {mobile && <source media="(min-width: 768px)" srcSet={desktop} />}
       {mobile && <source srcSet={mobile} />}
       {/* alt is already inside `rest`; repeating it is for the linter, which
           cannot see through the spread. Same value, so nothing is overridden. */}
       <img
         {...rest}
         alt={heroImage.alt}
-        className="absolute inset-0 size-full object-cover object-right lg:object-center"
+        className="absolute inset-0 size-full object-cover object-right md:object-center"
       />
     </picture>
   );
@@ -78,7 +79,7 @@ export function Hero() {
         // cannot cap anything, and an earlier attempt to bound the hero with
         // min-h alone did nothing at all: the headline simply grew past it.
         // The real height control is the type size on the h1 below.
-        "relative isolate flex min-h-[clamp(20rem,44svh,25rem)] items-center overflow-hidden border-b border-gold/40",
+        "relative isolate flex min-h-[clamp(20rem,44svh,25rem)] items-center overflow-hidden border-b border-gold/40 xl:min-h-[28rem]",
         hasPhoto && "bg-ink",
       )}
     >
@@ -88,8 +89,8 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto w-full max-w-content px-6 py-12">
-        <div className="max-w-[36rem]">
+      <Container className="relative py-12 lg:py-16">
+        <div className="max-w-[36rem] lg:max-w-[40rem] xl:max-w-[44rem]">
           <Eyebrow tone={hasPhoto ? "ink" : "ivory"}>
             Chennai · Saree pre-pleating
           </Eyebrow>
@@ -117,7 +118,7 @@ export function Hero() {
             by hand.
           </p>
 
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button href="/book">Book a pickup</Button>
             <Button
               href="/gallery"
@@ -139,7 +140,7 @@ export function Hero() {
             </span>
           </p>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

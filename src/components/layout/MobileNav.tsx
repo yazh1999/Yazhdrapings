@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { nav } from "@/data/site";
@@ -53,7 +54,7 @@ export function MobileNav() {
   }, [open]);
 
   return (
-    <div className="lg:hidden">
+    <div className="md:hidden">
       <button
         ref={triggerRef}
         type="button"
@@ -70,55 +71,71 @@ export function MobileNav() {
         </span>
       </button>
 
-      {open && (
-        <div
-          id="mobile-nav"
-          ref={panelRef}
-          tabIndex={-1}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menu"
-          className="fixed inset-0 z-50 flex flex-col bg-ivory px-6 py-5"
-        >
-          <div className="flex items-center justify-between">
-            <span className="font-display text-[1.5rem]">Menu</span>
-            <button
-              type="button"
-              onClick={() => {
-                setOpen(false);
-                triggerRef.current?.focus();
-              }}
-              className="flex size-11 items-center justify-center rounded-fold text-ink"
-            >
-              <span className="sr-only">Close menu</span>
-              <span aria-hidden="true" className="text-2xl leading-none">
-                &times;
-              </span>
-            </button>
-          </div>
-
-          <nav className="mt-10 flex flex-1 flex-col gap-6">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="font-display text-display-md text-ink"
+      {open &&
+        /**
+         * Rendered into document.body, not in place.
+         *
+         * The header carries `backdrop-blur-sm`, and backdrop-filter creates a
+         * containing block for fixed-position descendants — exactly like
+         * transform does. So `fixed inset-0` on a panel nested inside the header
+         * resolved against the header's own 72px box, not the viewport: the
+         * "full-screen" overlay rendered as a 72px scrolling strip and the CTAs
+         * were unreachable. Measured 72px inside the header vs 360px in body.
+         *
+         * Portalling fixes it without giving up the header blur. No mounted
+         * guard is needed: `open` starts false, so this branch — and the
+         * reference to document.body — is never evaluated during SSR.
+         */
+        createPortal(
+          <div
+            id="mobile-nav"
+            ref={panelRef}
+            tabIndex={-1}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ivory px-5 py-5 sm:px-6"
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-display text-[1.5rem]">Menu</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  triggerRef.current?.focus();
+                }}
+                className="flex size-11 items-center justify-center rounded-fold text-ink"
               >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+                <span className="sr-only">Close menu</span>
+                <span aria-hidden="true" className="text-2xl leading-none">
+                  &times;
+                </span>
+              </button>
+            </div>
 
-          <div className="flex flex-col gap-3 pb-6">
-            <Button href="/book">Book a pickup</Button>
-            {hasWhatsApp() && (
-              <Button href={buildWhatsAppUrl()} variant="whatsapp">
-                Message on WhatsApp
-              </Button>
-            )}
-          </div>
-        </div>
-      )}
+            <nav className="mt-10 flex flex-1 flex-col gap-6">
+              {nav.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex min-h-11 items-center font-display text-display-md text-ink"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="flex shrink-0 flex-col gap-3 pb-6">
+              <Button href="/book">Book a pickup</Button>
+              {hasWhatsApp() && (
+                <Button href={buildWhatsAppUrl()} variant="whatsapp">
+                  Message on WhatsApp
+                </Button>
+              )}
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

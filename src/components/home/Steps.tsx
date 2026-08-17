@@ -33,10 +33,10 @@ export function Steps() {
         Four steps, and one night.
       </h2>
 
-      <ol className="mt-16 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      <ol className="mt-10 grid gap-8 md:mt-16 md:grid-cols-2 md:gap-12 lg:grid-cols-4 xl:gap-16">
         {steps.map((step) => (
           <li key={step.n} className="border-t border-gold pt-6">
-            <span className="tabular block text-[2.75rem] leading-none text-gold">
+            <span className="tabular block text-[clamp(2rem,5vw,2.75rem)] leading-none text-gold">
               {step.n}
             </span>
             <h3 className="mt-5 text-title font-semibold text-ink">
