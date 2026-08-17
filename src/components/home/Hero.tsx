@@ -58,11 +58,14 @@ function HeroBackground() {
  * The branding photography is near-black, and the ink headline that reads at
  * 17.5:1 on ivory is invisible on it.
  *
- * The scrim also covers the left of the image, where the banner's own headline,
- * subtitle and service icons are baked into the pixels. Those cannot stay
- * visible: our live headline would be the second one on screen, and baked text
- * earns nothing for "saree pre pleating Chennai", which docs/01-brief.md makes
- * a top-three ranking target.
+ * The banner's own headline, subtitle and service icons are stripped out of the
+ * asset by scripts/generate-hero.mjs rather than hidden under the scrim, so the
+ * only headline on screen is this one — live, indexable text. Baked text earns
+ * nothing for "saree pre pleating Chennai", which docs/01-brief.md makes a
+ * top-three ranking target, and a screen reader cannot read it.
+ *
+ * Sized as a compact band, not a viewport-filling hero: the services and the
+ * price are what convert, and a full-height hero pushes both below the fold.
  *
  * Stays a Server Component: the fan is a pure CSS keyframe and the picture is
  * built at render time.
@@ -71,7 +74,11 @@ export function Hero() {
   return (
     <section
       className={cn(
-        "relative isolate flex min-h-[88svh] items-center overflow-hidden border-b border-gold/40",
+        // Compact band rather than a full screen. Clamped at both ends: it
+        // never collapses below 26rem on a short laptop window, and never grows
+        // past 34rem on a tall monitor, where a viewport-height hero just pushes
+        // the services and the price out of sight.
+        "relative isolate flex min-h-[clamp(26rem,58svh,34rem)] items-center overflow-hidden border-b border-gold/40",
         hasPhoto && "bg-ink",
       )}
     >
@@ -81,7 +88,7 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto w-full max-w-content px-6 py-24">
+      <div className="relative mx-auto w-full max-w-content px-6 py-16">
         <div className="max-w-[36rem]">
           <Eyebrow tone={hasPhoto ? "ink" : "ivory"}>
             Chennai · Saree pre-pleating
@@ -89,7 +96,7 @@ export function Hero() {
 
           <h1
             className={cn(
-              "mt-8 font-display text-display-xl",
+              "mt-6 font-display text-display-lg",
               hasPhoto ? "text-ivory" : "text-ink",
             )}
           >
@@ -100,7 +107,7 @@ export function Hero() {
 
           <p
             className={cn(
-              "mt-8 max-w-[44ch] text-body",
+              "mt-6 max-w-[42ch] text-body",
               hasPhoto ? "text-ivory/85" : "text-ink/85",
             )}
           >
@@ -110,7 +117,7 @@ export function Hero() {
             by hand.
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Button href="/book">Book a pickup</Button>
             <Button
               href="/gallery"
@@ -122,7 +129,7 @@ export function Hero() {
 
           <p
             className={cn(
-              "mt-10 text-small",
+              "mt-7 text-small",
               hasPhoto ? "text-ivory/65" : "text-muted",
             )}
           >
