@@ -74,11 +74,11 @@ export function Hero() {
   return (
     <section
       className={cn(
-        // Compact band rather than a full screen. Clamped at both ends: it
-        // never collapses below 26rem on a short laptop window, and never grows
-        // past 34rem on a tall monitor, where a viewport-height hero just pushes
-        // the services and the price out of sight.
-        "relative isolate flex min-h-[clamp(26rem,58svh,34rem)] items-center overflow-hidden border-b border-gold/40",
+        // A compact band. Note this is a FLOOR, not a ceiling — min-height
+        // cannot cap anything, and an earlier attempt to bound the hero with
+        // min-h alone did nothing at all: the headline simply grew past it.
+        // The real height control is the type size on the h1 below.
+        "relative isolate flex min-h-[clamp(20rem,44svh,25rem)] items-center overflow-hidden border-b border-gold/40",
         hasPhoto && "bg-ink",
       )}
     >
@@ -88,7 +88,7 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto w-full max-w-content px-6 py-16">
+      <div className="relative mx-auto w-full max-w-content px-6 py-12">
         <div className="max-w-[36rem]">
           <Eyebrow tone={hasPhoto ? "ink" : "ivory"}>
             Chennai · Saree pre-pleating
@@ -96,7 +96,7 @@ export function Hero() {
 
           <h1
             className={cn(
-              "mt-6 font-display text-display-lg",
+              "mt-5 font-display text-display-hero",
               hasPhoto ? "text-ivory" : "text-ink",
             )}
           >
@@ -107,7 +107,7 @@ export function Hero() {
 
           <p
             className={cn(
-              "mt-6 max-w-[42ch] text-body",
+              "mt-5 max-w-[42ch] text-body",
               hasPhoto ? "text-ivory/85" : "text-ink/85",
             )}
           >
@@ -117,7 +117,7 @@ export function Hero() {
             by hand.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-wrap gap-3">
             <Button href="/book">Book a pickup</Button>
             <Button
               href="/gallery"
@@ -129,7 +129,7 @@ export function Hero() {
 
           <p
             className={cn(
-              "mt-7 text-small",
+              "mt-6 text-small",
               hasPhoto ? "text-ivory/65" : "text-muted",
             )}
           >

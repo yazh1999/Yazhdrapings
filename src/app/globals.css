@@ -35,6 +35,15 @@
   --text-display-lg--line-height: 1;
   --text-display-lg--letter-spacing: -0.02em;
 
+  /* Hero headline. Sits between display-md and display-lg so the hero still
+     outranks a section heading, without the 72px of display-lg — which wrapped
+     to three lines and drove the whole section past the height it was meant to
+     hold. Height in a hero is set by the type, not by min-height: min-height is
+     a floor, and content walks straight through it. */
+  --text-display-hero: clamp(1.9rem, 4.2vw, 3.25rem);
+  --text-display-hero--line-height: 1.05;
+  --text-display-hero--letter-spacing: -0.02em;
+
   --text-display-md: clamp(1.75rem, 4vw, 2.75rem);
   --text-display-md--line-height: 1.1;
   --text-display-md--letter-spacing: -0.01em;
