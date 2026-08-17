@@ -7,9 +7,15 @@ import type { HeroImageConfig } from "@/types";
 export const site = {
   name: "Yazh Drapings",
   tamilName: "யாழ்",
-  tagline: "Saree pre-pleating and drape finishing. Chennai.",
+  tagline: "Saree draping and pre-pleating. Tamil Nadu.",
+
+  /**
+   * Search description. This is where the keyword terms belong — bridal,
+   * wedding, reception, party, traditional — not stuffed into the on-page copy,
+   * which is written to be read. Under 160 characters or Google truncates it.
+   */
   description:
-    "Your saree comes back pleated, pressed and pinned — ready to wear in under a minute. Cotton to Kanjivaram, set by hand in Chennai.",
+    "Bridal, wedding and reception saree draping, plus hand pre-pleating. Draped on the day or sent back ready to wear. Gummidipoondi and Tamil Nadu.",
 
   /**
    * Must be byte-identical here, on Google Business Profile, on Instagram and

@@ -25,18 +25,50 @@ export interface Turnaround {
   expressSurchargePct?: number;
 }
 
-export interface Service {
+/**
+ * The business runs two models, and they do not share fields.
+ *
+ *   send-in     — the saree comes to us, is worked on, and goes back. Has a
+ *                 fabric group and a turnaround. This is pre-pleating, fall &
+ *                 pico, kuchu.
+ *   appointment — we come to you and drape the saree on the day. Has a place
+ *                 and a duration; a turnaround is meaningless for it.
+ *
+ * Modelling both with one flat shape would mean optional fields everywhere and
+ * a `turnaround` on bridal draping that no one can answer. A discriminated
+ * union makes the compiler enforce which fields belong to which.
+ */
+export type ServiceKind = "send-in" | "appointment";
+
+interface ServiceBase {
   slug: string;
   name: string;
   tamilName?: string; // must be proofread by a native reader before launch
   summary: string; // one line, for cards
   description: string; // two sentences, for /services
-  price: Price;
-  fabricGroup: FabricGroup;
-  turnaround: Turnaround;
+  /** Null means "on request" — never invent a figure to fill this. */
+  price: Price | null;
   featured: boolean; // exactly three — the home page preview
   image: string;
 }
+
+export interface SendInService extends ServiceBase {
+  kind: "send-in";
+  fabricGroup: FabricGroup;
+  turnaround: Turnaround;
+}
+
+export interface AppointmentService extends ServiceBase {
+  kind: "appointment";
+  /** Where it happens — venue, home, studio. */
+  where: string;
+  /** Rough time to allow, so a bride can plan the morning around it. */
+  durationMins?: number;
+  /** How many people one booking covers. */
+  covers?: string;
+}
+
+export type Service = SendInService | AppointmentService;
 
 /**
  * Pickup, delivery and courier are charges, not services: no turnaround, no

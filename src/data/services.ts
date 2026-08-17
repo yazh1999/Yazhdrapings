@@ -1,4 +1,4 @@
-import type { Charge, Service } from "@/types";
+import type { AppointmentService, Charge, SendInService, Service } from "@/types";
 
 /**
  * Single source of truth for prices. Never type a rupee figure into JSX.
@@ -11,8 +11,9 @@ import type { Charge, Service } from "@/types";
  * rule 6: if a Tamil string appears it must be correct, checked by a native
  * reader. An absent Tamil name is fine; a wrong one is not.
  */
-export const services: Service[] = [
+export const sendInServices: SendInService[] = [
   {
+    kind: "send-in",
     slug: "pre-pleating-light",
     name: "Pre-pleating — cotton, georgette, chiffon",
     summary: "Pleats set to your height, pressed, and tacked so they hold through the day.",
@@ -26,6 +27,7 @@ export const services: Service[] = [
     image: "/assets/services/pre-pleating-light.webp",
   },
   {
+    kind: "send-in",
     slug: "pre-pleating-silk",
     name: "Pre-pleating — silk, Kanjivaram, tissue",
     summary: "Heavier fabric, steam-set and given a slower hold.",
@@ -38,6 +40,7 @@ export const services: Service[] = [
     image: "/assets/services/pre-pleating-silk.webp",
   },
   {
+    kind: "send-in",
     slug: "fall-and-pico",
     name: "Fall & pico",
     summary: "Fall stitched straight, edges piped clean.",
@@ -46,10 +49,11 @@ export const services: Service[] = [
     price: { from: 200, unit: "per-saree" },
     fabricGroup: "specialty",
     turnaround: { standardHours: 48, expressHours: 24 },
-    featured: true,
+    featured: false,
     image: "/assets/services/fall-and-pico.webp",
   },
   {
+    kind: "send-in",
     slug: "kuchu",
     name: "Kuchu & tassels",
     summary: "Hand-knotted pallu tassels. Pick your thread, pick your bead.",
@@ -63,6 +67,7 @@ export const services: Service[] = [
     image: "/assets/services/kuchu.webp",
   },
   {
+    kind: "send-in",
     slug: "ready-to-wear",
     name: "Ready-to-wear conversion",
     summary: "Saree stitched into a step-in, zip-fastened drape.",
@@ -76,6 +81,7 @@ export const services: Service[] = [
     image: "/assets/services/ready-to-wear.webp",
   },
   {
+    kind: "send-in",
     slug: "bridal-package",
     name: "Bridal / occasion package",
     summary: "Pleating, fall & pico, kuchu, garment bag, on-time delivery.",
@@ -86,6 +92,67 @@ export const services: Service[] = [
     turnaround: { standardHours: 120 }, // express on request
     featured: false,
     image: "/assets/services/bridal-package.webp",
+  },
+];
+
+/**
+ * Draping — we come to you and drape the saree on the day.
+ *
+ * ⚠️ NO PRICES YET. Every one of these is `price: null`, which renders as
+ * "On request". Do not fill them in with a guess: draping is quoted on the
+ * number of people, the venue and the date, and a wrong figure on a bridal
+ * booking is a refund conversation.
+ *
+ * The client's own description of this line was written for search engines —
+ * "professional", "elegant", "beautiful", "perfectly styled". docs/01-brief.md
+ * bans exactly those words and says why: specificity is the entire trust
+ * strategy, and "nine pleats, set overnight" does more work than any adjective.
+ * The search terms it was reaching for (bridal, wedding, reception, party,
+ * traditional) are all still here — in the names, the descriptions and the page
+ * metadata, where they count — but the sentences are written to be read by a
+ * bride, not crawled by Google.
+ */
+export const drapingServices: AppointmentService[] = [
+  {
+    kind: "appointment",
+    slug: "bridal-draping",
+    name: "Bridal saree draping",
+    summary: "The bridal saree, draped on you on the morning, pleat by pleat.",
+    description:
+      "A bridal drape is set on the person, not on a hanger — pleats counted, pallu pinned to hold through a long day of standing, sitting and photographs. We come to the venue or the house and allow enough time that nobody is rushing.",
+    price: null,
+    where: "Your venue or your home",
+    durationMins: 45,
+    covers: "The bride",
+    featured: true,
+    image: "/assets/services/bridal-draping.webp",
+  },
+  {
+    kind: "appointment",
+    slug: "wedding-reception-draping",
+    name: "Wedding & reception draping",
+    summary: "Draping for the family and the guests, several people in one booking.",
+    description:
+      "Muhurtham, reception, mehendi — whoever needs draping gets it, one after another at the venue. Tell us how many people and what time the function starts, and we work backwards from that.",
+    price: null,
+    where: "Your venue",
+    covers: "Family and guests, several per booking",
+    featured: false,
+    image: "/assets/services/wedding-reception-draping.webp",
+  },
+  {
+    kind: "appointment",
+    slug: "party-occasion-draping",
+    name: "Party & festival draping",
+    summary: "One saree, one occasion, draped and pinned to last the evening.",
+    description:
+      "For a party, a festival, or an office function. Pick a traditional Tamil drape, a Nivi, or a style you have seen and want copied — bring a photograph and we will match it.",
+    price: null,
+    where: "Your home or the studio",
+    durationMins: 30,
+    covers: "One person",
+    featured: false,
+    image: "/assets/services/party-occasion-draping.webp",
   },
 ];
 
@@ -108,8 +175,21 @@ export const charges: Charge[] = [
   },
 ];
 
+/**
+ * Everything the business sells, in one list. Draping first: the logo leads
+ * with "Saree Draping & Pre-Pleating Service", and a bridal booking is worth
+ * many times a ₹250 pleating job.
+ */
+export const services: Service[] = [...drapingServices, ...sendInServices];
+
+/** Exactly three, for the home page preview. */
 export const featuredServices = services.filter((s) => s.featured);
 
 export function getService(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug);
 }
+
+/** Narrowing helpers, so callers do not hand-roll the discriminant check. */
+export const isSendIn = (s: Service): s is SendInService => s.kind === "send-in";
+export const isAppointment = (s: Service): s is AppointmentService =>
+  s.kind === "appointment";

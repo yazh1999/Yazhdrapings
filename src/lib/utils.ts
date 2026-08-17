@@ -11,13 +11,17 @@ const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
  * One formatter so the ₹ symbol, the Indian digit grouping and the range dash
  * are identical everywhere. en-IN groups as 1,80,000 rather than 180,000.
  */
-export function formatPrice(price: Price): string {
+export function formatPrice(price: Price | null): string {
+  if (!price) return "On request";
   return price.to ? `${inr(price.from)}–${inr(price.to)}` : inr(price.from);
 }
 
-/** "from ₹250" / "from ₹400–₹900" — the card and preview form. */
-export function formatPriceFrom(price: Price): string {
-  return `from ${formatPrice(price)}`;
+/**
+ * "from ₹250" / "from ₹400–₹900" — the card and preview form.
+ * A null price stays "On request" rather than becoming "from On request".
+ */
+export function formatPriceFrom(price: Price | null): string {
+  return price ? `from ${formatPrice(price)}` : formatPrice(price);
 }
 
 /**
