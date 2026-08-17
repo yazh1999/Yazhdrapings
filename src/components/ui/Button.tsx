@@ -4,10 +4,21 @@ import { cn } from "@/lib/utils";
 
 type Variant = "primary" | "secondary" | "secondaryOnInk" | "whatsapp";
 
-// 48px min height, 2px radius, no shadows. Depth comes from the pleat gradient;
-// a drop shadow on an ivory page is the fastest way to look generic.
+/**
+ * Pill buttons. This is a deliberate departure from `02-design-system.md`, which
+ * specifies a 2px radius on the grounds that "pleats have creases, not rounded
+ * corners" — the client asked for a modern shape and that call is theirs.
+ *
+ * The radius lives in one token (`--radius-button`) so the whole site changes
+ * together: mixing pill CTAs with 2px inputs is what actually looks unfinished,
+ * not the radius itself. Inputs and cards follow it when they are built.
+ *
+ * Everything else holds: 48px min height for tap targets, no shadows. Depth
+ * comes from the pleat gradient, and a drop shadow on an ivory page is the
+ * fastest way to look generic.
+ */
 const base =
-  "inline-flex min-h-12 items-center justify-center gap-2 rounded-fold px-6 " +
+  "inline-flex min-h-12 items-center justify-center gap-2 rounded-button px-7 " +
   "font-body text-[0.9375rem] font-semibold tracking-wide transition-colors " +
   "duration-160 ease-out disabled:cursor-not-allowed disabled:opacity-45";
 

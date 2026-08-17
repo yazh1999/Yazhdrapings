@@ -43,17 +43,20 @@ export function Wordmark({
       />
 
       <span className="block leading-none">
+        {/* The full registered name. "Yazh" alone read as an abbreviation and
+            did not match the logo, Google Business Profile or Instagram — and
+            NAP has to be identical across all four for local search. */}
         <span
           className={cn(
-            "block font-display text-[1.5rem] leading-none tracking-tight",
+            "block font-display text-[1.4rem] leading-none tracking-tight whitespace-nowrap",
             tone === "ink" ? "text-ink" : "text-ivory",
           )}
         >
-          Yazh
+          {site.name}
         </span>
         <span
           aria-hidden="true"
-          className="mt-1 block font-tamil text-[0.9rem] leading-none text-gold"
+          className="mt-1 block font-tamil text-[0.85rem] leading-none text-gold"
         >
           {site.tamilName}
         </span>

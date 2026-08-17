@@ -68,6 +68,13 @@
   --radius-fold: 2px;
   --radius-card: 4px;
 
+  /* Buttons and inputs. A departure from 02-design-system.md at the client's
+     request — they wanted a modern shape. Kept as one token so buttons, inputs
+     and chips stay consistent with each other; a pill CTA next to a 2px input
+     is what reads as unfinished. Set to 0.5rem for a softened rectangle
+     instead, or back to var(--radius-fold) to restore the original system. */
+  --radius-button: 9999px;
+
   /* Section rhythm lives in one token so no two selectors fight over margins. */
   --spacing-section: clamp(4rem, 9vw, 8rem);
 

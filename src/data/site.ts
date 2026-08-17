@@ -11,14 +11,22 @@ export const site = {
   description:
     "Your saree comes back pleated, pressed and pinned — ready to wear in under a minute. Cotton to Kanjivaram, set by hand in Chennai.",
 
-  // TODO(launch): replace with the real studio address before Google Business
-  // Profile is claimed. NAP mismatches cost local ranking.
+  /**
+   * Must be byte-identical here, on Google Business Profile, on Instagram and
+   * on Justdial. NAP mismatches cost local ranking.
+   *
+   * ⚠️ Gummidipoondi is in Tiruvallur district, about 50km north of Chennai —
+   * not Chennai city. Every "Chennai" claim in the copy and in `serviceArea`
+   * below needs confirming against where pickup is actually offered. See the
+   * note on `serviceArea`.
+   */
   address: {
-    street: "[STREET]",
-    locality: "[NEIGHBOURHOOD]",
-    city: "Chennai",
+    street: "34, Guru Kiruba Second Street",
+    locality: "Gummidipoondi",
+    city: "Gummidipoondi",
+    district: "Tiruvallur",
     region: "Tamil Nadu",
-    postalCode: "[PIN]",
+    postalCode: "601201",
     country: "IN",
   },
 
@@ -27,6 +35,21 @@ export const site = {
     sunday: "Sunday, pickup only",
   },
 
+  /**
+   * ⚠️ UNVERIFIED. The studio is in Gummidipoondi, ~50km north of Chennai. The
+   * copy throughout the site promises "doorstep pickup across Chennai" and the
+   * local SEO plan targets "saree pre pleating Chennai".
+   *
+   * Confirm with the client which is true:
+   *   a) Pickup really does cover Chennai city — keep the copy, and target both
+   *      Gummidipoondi and Chennai.
+   *   b) Pickup is Gummidipoondi and nearby — the copy has to change, and the
+   *      SEO target becomes Gummidipoondi / Tiruvallur, where there is far less
+   *      competition and a much better chance of ranking.
+   *
+   * Do not launch on (a) unless it is actually true. A pickup promise the
+   * business cannot keep is the fastest way to lose the first customers.
+   */
   serviceArea: "Chennai, and the rest of Tamil Nadu by insured courier",
 } as const;
 

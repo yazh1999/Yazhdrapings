@@ -14,7 +14,7 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* 1 — Wordmark and the one line. */}
           <div>
-            <p className="font-display text-[1.75rem] leading-none">Yazh</p>
+            <p className="font-display text-[1.6rem] leading-none">{site.name}</p>
             <p
               aria-hidden="true"
               className="mt-1 font-tamil text-[1.05rem] leading-none text-gold"
@@ -56,7 +56,7 @@ export function Footer() {
                 <br />
                 {site.address.locality}
                 <br />
-                {site.address.city} {site.address.postalCode}
+                {site.address.region} {site.address.postalCode}
               </p>
               {contact.phone && (
                 <p>
@@ -110,7 +110,9 @@ export function Footer() {
       <PleatDivider className="opacity-60" />
 
       <div className="mx-auto flex w-full max-w-content flex-col gap-4 px-6 py-6 pb-24 text-small text-ivory/60 sm:flex-row sm:items-center sm:justify-between lg:pb-6">
-        <p>&copy; {year} {site.name}. Made in Chennai.</p>
+        <p>
+          &copy; {year} {site.name}. Made in {site.address.locality}.
+        </p>
         <ul className="flex flex-wrap gap-6">
           {footerLegal.map((item) => (
             <li key={item.href}>
